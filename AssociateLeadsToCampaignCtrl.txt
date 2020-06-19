@@ -1,0 +1,32 @@
+Hi,
+
+I'm 2x Salesforce Certified Platform Developer I and Platform Developer II professional with 4 years of IT experience in Salesforce CRM development and configuration.
+
+I do have experience providing online and offline training in colleges to student during their semester breaks.
+
+From my earlier training experience, I've a designed checklist of all the topics which needs to be covered during training sessions along with real business project to implement while covering each topic simultaneously.
+
+So, by the time you'll cover all the topics related with configuration and customization, you'll also have a real business implemented in hands that's too developed by thyself.
+
+I'll be starting from the very beginning like Why Salesforce, Comparision with other technologies, Choosing right Salesforce "Org" as per your business requirement, What are all the features which varies org to org, Varies clouds that salesforce offers, App exchange packages, installations, deployments so on.
+
+Ad-on, I'll be covering the latest Lightning web component aka "LWC" framework once i'll make sure that you've pretty much understanding about topic covered earlier as per my checklist.
+
+I just love to solve queries, be it very silly or most tricky one.
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+Hi buddy,
+
+Congrats on migrating your existing knowledge base to Salesforce knowledge base.
+
+Indeed, Job sounds challenging until someone has already done similar task in past. And, fortunately I'm into similar work managing communities and knowledge articles for my client.
+
+The idea is to provide look alike Knowledge Bases for the internal and external users with advance user experience through salesforce.
+
+For Example: While i was interacting with my business person, He was constantly focused on integrating different platform they're already been managing with salesforce, until I've show cased him the the possibilities managing all on same platform with lesser cost. 
+
+Although, you've mentioned the URL to the knowledge base and specified the task to replicate. I would like to know more in terms of business and how it works for internal and external users. Key is to come up with interesting angle...love to know more if you would like to chat about.
+
+Thanks,
+Kamran

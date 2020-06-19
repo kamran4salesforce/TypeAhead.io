@@ -1,0 +1,77 @@
+@isTest
+private class AssociateLeadsToCampaignCtrl_Test {
+    
+    @testSetup static void setup() {
+        Account acct = new Account (Name = 'Acme, Inc.');
+        insert acct;  
+        
+        List<Contact> lstContact = new List<Contact>();
+        Contact con = new Contact(
+            FirstName = 'test',
+            LastName = 'contact',
+            AccountId = acct.Id
+        );
+        lstContact.add(con); 
+        
+        Contact con1 = new Contact(
+            FirstName = 'Robin',
+            LastName = 'Koehler',
+            AccountId = acct.Id
+        );
+        lstContact.add(con1);  
+        insert lstContact;
+        
+        Lead led = new Lead(Company = 'Test Lead',
+                          LastName = 'Lead Last Name',
+                          CurrentGenerators__c = 'Generator X',
+                          SICCode__c = '1234-ABC');
+        insert led;
+        
+        List<Campaign> Campaigns = new List<Campaign>();
+        Campaign camp = new Campaign(
+            Name = 'Test',
+            IsActive = TRUE
+        );            
+        Campaigns.add(camp);        
+        
+        Campaign camp1 = new Campaign(
+            Name = 'Test1',
+            IsActive = TRUE
+        );            
+        Campaigns.add(camp1);
+        insert Campaigns;
+        
+        List<CampaignMember> members = new List<CampaignMember>();
+        CampaignMember member = new CampaignMember(
+            ContactId = lstContact[0].Id,
+            Status = 'sent',
+            CampaignId = Campaigns[0].Id
+        ); 
+        members.add(member); 
+        
+        CampaignMember member1 = new CampaignMember(
+            ContactId = lstContact[1].Id,
+            Status = 'sent',
+            CampaignId = Campaigns[1].Id
+        );         
+        members.add(member1); 
+        insert members;
+    }
+    
+    @isTest static void testPositive(){
+        Lead led = [SELECT Id, Name FROM Lead WHERE LastName = 'Lead Last Name'];
+        List<Campaign> Campaigns = [SELECT Id,Name,isActive FROM Campaign];
+        List<CampaignMember> CampMembers = [SELECT Id,ContactId,Status,CampaignId FROM CampaignMember];
+        
+        ApexPages.StandardController sc = new ApexPages.StandardController(Campaigns[0]);
+        AssociateLeadsToCampaignCtrl testAsscociateLead = new AssociateLeadsToCampaignCtrl(sc);
+        
+        PageReference pageRef = Page.AssociateLeadsToCampaignPage;
+        pageRef.getParameters().put('id', String.valueOf(Campaigns[0].Id));        
+        Test.setCurrentPage(pageRef);
+        
+        testAsscociateLead.fetchLeadRecords();
+        testAsscociateLead.associateLead();
+    }
+    
+}

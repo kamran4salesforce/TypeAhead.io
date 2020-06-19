@@ -1,0 +1,122 @@
+<apex:page standardController="Campaign" extensions="AssociateLeadsToCampaignCtrl" action="{!fetchLeadRecords}" docType="html-5.0" lightningStylesheets="true" sidebar="false">
+    <apex:includeScript value="{!$Resource.jQuery}"/>
+    <apex:includeScript value="{!$Resource.TypeaheadjQuery}"/>
+    
+    <style>
+        .tt-query, 
+        /*.tt-hint {
+        width: 396px;
+        height: 30px;
+        padding: 8px 12px;
+        font-size: 24px;
+        line-height: 30px;
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        outline: none;
+        }*/
+        .tt-query { 
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        }
+        .tt-hint {
+        color: #999;
+        }
+        .tt-menu { 
+        width: 422px;
+        margin-top: 12px;
+        padding: 8px 0;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        box-shadow: 0 5px 10px rgba(0,0,0,.2);
+        }
+        .tt-suggestion {
+        padding: 3px 20px;
+        font-size: 18px;
+        line-height: 24px;
+        cursor: pointer;
+        }
+        .tt-suggestion:hover {
+        color: #f0f0f0;
+        background-color: #0097cf;
+        }
+        .tt-suggestion p {
+        margin: 0;
+        }     
+    </style>
+    
+    <apex:form id="topformId"> 
+        <apex:pageBlock id="pdId">  
+            <div id="the-basics">
+                <input id="searchTxt" class="typeahead" type="text" placeholder="Search Leads"/>
+                <input type="button" value="Lookup" onclick="passSelectedValue(searchTxt.value)"/>
+            </div>
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Associate" reRender="topformId" action="{!associateLead}" oncomplete="reloadCampaignPage()" />
+            </apex:pageBlockButtons>
+            <apex:pageBlockTable value="{!addNewLeads}" var="l" columns="6">
+                <apex:column headerValue="Select">
+                    <apex:inputCheckbox value="{!l.selected}"/>
+                </apex:column>
+                <apex:column value="{!l.leadsToAdd.Name}">
+                </apex:column>
+                <apex:column value="{!l.leadsToAdd.Company}">
+                </apex:column>
+                <apex:column value="{!l.leadsToAdd.Email}">
+                </apex:column>
+                <apex:column value="{!l.leadsToAdd.Status}">
+                </apex:column>
+                <apex:column value="{!l.leadsToAdd.CreatedDate}">
+                </apex:column>
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+         <apex:actionFunction action="{!fetchLeadRecords}" name="passSelectedValue" reRender="pdId">
+            <apex:param name="searchText" value="" />
+        </apex:actionFunction>
+    </apex:form>
+    <script>
+    function reloadCampaignPage() {
+        window.top.location='/{!Campaign.Id}';
+    }
+    
+    /*assigning lead data to JS Var for typeahead*/
+    var myLeads = '{!leadTypeAheadNames}';
+    myLeads = myLeads.replace("[", "");
+    myLeads = myLeads.replace("]", "");
+    myLeads = myLeads.split(','); 
+    
+    var substringMatcher = function(strs) {
+        return function findMatches(q, cb) {
+            var matches, substringRegex;
+            
+            // an array that will be populated with substring matches
+            matches = [];
+            
+            // regex used to determine if a string contains the substring `q`
+            substrRegex = new RegExp(q, 'i');
+            
+            // iterate through the pool of strings and for any string that
+            // contains the substring `q`, add it to the `matches` array
+            $.each(strs, function(i, str) {
+                if (substrRegex.test(str)) {
+                    matches.push(str);
+                }
+            });
+            
+            cb(matches);
+        };
+    };
+    
+    $('#the-basics .typeahead').typeahead({
+        hint: true,
+        highlight: true,
+        minLength: 1
+    },
+                                          {
+                                              name: 'myLeads',
+                                              source: substringMatcher(myLeads)
+                                          }); 
+    
+    
+    </script>
+</apex:page>
